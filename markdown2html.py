@@ -1,11 +1,17 @@
 #!/usr/bin/python3
 """
-A script markdown2html.py that takes an argument 2 strings:
-    First argument is the name of the Markdown file
-    Second argument is the output file name
-    If the number of arguments is less than 2: print in STDERR Usage: ./markdown2html.py README.md README.html and exit 1
-    If the Markdown file doesn’t exist: print in STDERR Missing <filename> and exit 1
-    Otherwise, print nothing and exit 0
+This is a script to convert a Markdown file to HTML.
+Arguments:
+    - First argument: the name of the Markdown file
+    - Second argument: the output file name
+If the number of arguments is less than 2:
+    Output: Usage: ./markdown2html.py README.md README.html
+    Exit with status 1
+If the Markdown file doesn’t exist:
+    Output: Missing <filename>
+    Exit with status 1
+Otherwise:
+    Convert the Markdown file to HTML, print nothing, and exit with status 0
 """
 
 import sys
