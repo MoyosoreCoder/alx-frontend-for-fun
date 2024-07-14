@@ -13,7 +13,6 @@ def convert_markdown_to_html(input_file, output_file):
     """
     with open(input_file, encoding="utf-8") as f:
         html_lines = []
-        in_ul_list = False
         in_ol_list = False
         for line in f:
             # Check for Markdown headings
@@ -23,36 +22,19 @@ def convert_markdown_to_html(input_file, output_file):
                 heading_text = match.group(2)
                 html_lines.append(f"<h{heading_level}>{heading_text}</h{heading_level}>")
             else:
-                # Check for unordered list items
+                # Check for ordered list items (using *)
                 if line.startswith("* "):
-                    if not in_ul_list:
-                        if in_ol_list:
-                            html_lines.append("</ol>")
-                            in_ol_list = False
-                        html_lines.append("<ul>")
-                        in_ul_list = True
-                    html_lines.append(f"<li>{line[2:].strip()}</li>")
-                # Check for ordered list items
-                elif re.match(r"^\d+\.", line):
                     if not in_ol_list:
-                        if in_ul_list:
-                            html_lines.append("</ul>")
-                            in_ul_list = False
                         html_lines.append("<ol>")
                         in_ol_list = True
-                    html_lines.append(f"<li>{line[line.index('.') + 1:].strip()}</li>")
+                    html_lines.append(f"<li>{line[2:].strip()}</li>")
                 else:
-                    if in_ul_list:
-                        html_lines.append("</ul>")
-                        in_ul_list = False
                     if in_ol_list:
                         html_lines.append("</ol>")
                         in_ol_list = False
                     html_lines.append(line.rstrip())
 
         # Close any open list at the end of the file
-        if in_ul_list:
-            html_lines.append("</ul>")
         if in_ol_list:
             html_lines.append("</ol>")
 
