@@ -25,12 +25,12 @@ def convert_markdown_to_html(input_file, output_file):
                 # Check for unordered list items
                 if line.startswith("- "):
                     if not in_list:
-                        html_lines.append("<ul>")
+                        html_lines.append("<ol>")
                         in_list = True
                     html_lines.append(f"<li>{line[2:].strip()}</li>")
                 else:
                     if in_list:
-                        html_lines.append("</ul>")
+                        html_lines.append("</ol>")
                         in_list = False
                     html_lines.append(line.rstrip())
 
