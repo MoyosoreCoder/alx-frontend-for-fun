@@ -11,9 +11,9 @@ def convert_markdown_to_html(input_file, output_file):
     """
     Converts a Markdown file to HTML and writes the output to a file.
     """
+    # Read the Markdown file and convert it to HTML
     with open(input_file, encoding="utf-8") as f:
         html_lines = []
-        in_list = False
         for line in f:
             # Check for Markdown headings
             match = re.match(r"^(#+) (.*)$", line)
@@ -24,19 +24,9 @@ def convert_markdown_to_html(input_file, output_file):
             else:
                 # Check for unordered list items
                 if line.startswith("- "):
-                    if not in_list:
-                        html_lines.append("<ul>")
-                        in_list = True
                     html_lines.append(f"<li>{line[2:].strip()}</li>")
                 else:
-                    if in_list:
-                        html_lines.append("</ul>")
-                        in_list = False
                     html_lines.append(line.rstrip())
-
-        # Close any open list at the end of the file
-        if in_list:
-            html_lines.append("</ul>")
 
     # Write the HTML output to a file
     with open(output_file, "w", encoding="utf-8") as f:
