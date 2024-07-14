@@ -18,13 +18,16 @@ import sys
 import os
 import markdown
 
+
 def print_usage_and_exit():
     print("Usage: ./markdown2html.py README.md README.html", file=sys.stderr)
     sys.exit(1)
 
+
 def print_missing_and_exit(filename):
     print(f"Missing {filename}", file=sys.stderr)
     sys.exit(1)
+
 
 if __name__ == "__main__":
     # Check if the number of arguments is less than 2
@@ -51,4 +54,3 @@ if __name__ == "__main__":
 
     # Exit with success
     sys.exit(0)
-
