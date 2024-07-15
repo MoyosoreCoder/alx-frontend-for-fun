@@ -15,60 +15,33 @@ def convert_markdown_to_html(input_file, output_file):
     with open(input_file, encoding="utf-8") as f:
         html_lines = []
         in_ol_list = False
-        in_ul_list = False
-        in_code_block = False
         for line in f:
             line = line.rstrip()
-            if in_code_block:
-                if line == "```":
-                    html_lines.append("</code></pre>")
-                    in_code_block = False
-                else:
-                    html_lines.append(line)
-                continue
-
             # Check for Markdown headings
             match = re.match(r"^(#+) (.*)$", line)
             if match:
                 heading_level = len(match.group(1))
                 heading_text = match.group(2)
                 html_lines.append(f"<h{heading_level}>{heading_text}</h{heading_level}>")
-            elif line == "```":
-                html_lines.append("<pre><code>")
-                in_code_block = True
             else:
                 # Check for ordered list items
-                if re.match(r"^[0-9]+\. ", line):
+                if line.startswith("* "):
                     if not in_ol_list:
                         html_lines.append("<ol>")
                         in_ol_list = True
-                    html_lines.append(f"<li>{line.split(' ', 1)[1]}</li>")
+                    html_lines.append(f"<li>{line[2:].strip()}</li>")
                 else:
                     if in_ol_list:
                         html_lines.append("</ol>")
                         in_ol_list = False
-                    # Check for unordered list items
-                    if re.match(r"^[\*\-\+] ", line):
-                        if not in_ul_list:
-                            html_lines.append("<ul>")
-                            in_ul_list = True
-                        html_lines.append(f"<li>{line[2:].strip()}</li>")
-                    else:
-                        if in_ul_list:
-                            html_lines.append("</ul>")
-                            in_ul_list = False
-                        # Convert inline code
-                        line = re.sub(r"`([^`]*)`", r"<code>\1</code>", line)
-                        if line:
-                            html_lines.append(f"<p>{line}</p>")
+                    # Convert inline code
+                    line = re.sub(r"`([^`]*)`", r"<code>\1</code>", line)
+                    if line:
+                        html_lines.append(f"<p>{line}</p>")
 
         # Close any open list at the end of the file
         if in_ol_list:
             html_lines.append("</ol>")
-        if in_ul_list:
-            html_lines.append("</ul>")
-        if in_code_block:
-            html_lines.append("</code></pre>")
 
     # Write the HTML output to a file
     with open(output_file, "w", encoding="utf-8") as f:
