@@ -15,6 +15,7 @@ def convert_markdown_to_html(input_file, output_file):
     with open(input_file, encoding="utf-8") as f:
         html_lines = []
         in_ol_list = False
+        in_ul_list = False
         paragraph_lines = []
 
         def close_paragraph():
@@ -23,7 +24,7 @@ def convert_markdown_to_html(input_file, output_file):
                 for idx, pline in enumerate(paragraph_lines):
                     if idx > 0:
                         html_lines.append("    <br />")
-                    html_lines.append(f"    {pline}")
+                    html_lines.append("    " + pline)
                 html_lines.append("</p>")
                 paragraph_lines.clear()
 
@@ -44,14 +45,11 @@ def convert_markdown_to_html(input_file, output_file):
                     if not in_ol_list:
                         html_lines.append("<ol>")
                         in_ol_list = True
-                    html_lines.append(f"    <li>{line[2:].strip()}</li>")
+                    html_lines.append(f"<li>{line[2:].strip()}</li>")
                 else:
                     if in_ol_list:
                         html_lines.append("</ol>")
                         in_ol_list = False
-                    # Apply bold and italic syntax replacements
-                    line = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", line)
-                    line = re.sub(r"__(.*?)__", r"<em>\1</em>", line)
                     # Collect paragraph lines
                     if line:
                         paragraph_lines.append(line)
