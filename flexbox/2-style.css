@@ -1,3 +1,7 @@
+/* Section Latest news ============================= */
+.section-latest-news {
+  flex-direction: row-reverse;
+}
 /* SUMMARY
     1. GLOBAL
     2. LAYOUT
