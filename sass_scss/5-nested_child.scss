@@ -1,0 +1,9 @@
+/* Sass file that assigns:Text color #3D3D3D to body and .red class */
+/* Nested child declarations */
+
+body {
+  color: #3D3D3D;
+  > .red {
+    color: #FF0000;
+  }
+}
