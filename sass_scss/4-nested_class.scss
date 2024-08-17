@@ -1,0 +1,9 @@
+/* Write a Sass file that assigns: text-color, body */
+/* Nested class declarations */
+
+body {
+  color: #3D3D3D;
+  .red {
+    color: #FF0000;
+  }
+}
